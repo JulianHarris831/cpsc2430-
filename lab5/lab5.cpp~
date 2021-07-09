@@ -1,0 +1,115 @@
+//lab5.cpp
+//Julian Harris
+//10/16/2020
+
+#include <iostream>
+#include <ctime>
+
+using namespace std;
+
+//constants
+const int SIZE = 15;
+const int MIN = 1;
+const int MAX = 25; 
+
+//functions
+void insert(int arrHeap[], int& currentSize, int newVal);
+
+int deleteMax(int arrHeap[], int& currentSize);
+
+void percolateDown(int arrHeap[], int hole, int size);
+
+void print(int arrHeap[], int size);
+
+
+int main()
+{
+  int currentSize = 0;
+  int arrHeap[SIZE];
+  int userVal = 0;
+
+  srand(time(0));
+  
+  cout << "\nFilling queue with random integers\n\n";
+  for(int i = 1; i <= 15; i++)
+    insert(arrHeap, currentSize, rand() % ((MAX - MIN) + 1) + MIN);
+
+  print(arrHeap, currentSize);
+
+  while(currentSize != 0){
+    cout << "Enter a positive integer: ";
+    cin >> userVal; 
+
+    if(userVal <= currentSize){
+      for(int i = 1; i <= userVal; i++){
+        cout << "Removing biggest value " << i << "...\n"
+             << deleteMax(arrHeap, currentSize) << '\n';
+      }
+      print(arrHeap, currentSize);
+    }
+    else
+      cout << "Invalid input, try again.\n";
+  }
+  cout << "Program finished. Exiting...\n";
+}
+
+
+//bodies
+void insert(int arrHeap[], int& currentSize, int newVal){
+  //create a max-heap, where biggest value has highest priority.
+  //root is biggest value
+  
+  if(currentSize == SIZE-1)
+    cout << "Queue is already full.\n\n";
+  else{
+    int hole = ++currentSize;  
+    arrHeap[0] = newVal; //first index holds temp values
+    
+    //percolate up
+    while(newVal > arrHeap[hole/2]){
+      arrHeap[hole] = arrHeap[hole/2];
+      hole /= 2;
+    }
+    arrHeap[hole] = arrHeap[0]; //:0
+  }
+}
+
+int deleteMax(int arrHeap[], int& currentSize){
+  
+  //if empty, throw exception
+  int tempVal = arrHeap[1];
+  
+  arrHeap[1] = arrHeap[currentSize--];
+  percolateDown(arrHeap, 1, currentSize);
+  
+  return tempVal;
+}
+
+void percolateDown(int arrHeap[], int hole, int size){
+
+  int child;
+  int tmp = arrHeap[hole];
+  bool bubbleDown = true; //not leaf
+
+  while(bubbleDown && hole * 2 <= size){
+    child = hole * 2;
+    if(child != size && arrHeap[child+1] > arrHeap[child])
+      ++child;
+    if(arrHeap[child] > tmp)
+      arrHeap[hole] = arrHeap[child];
+    else
+      bubbleDown = false;
+    if(bubbleDown)
+      hole = child;
+  }
+  arrHeap[hole] = tmp;
+}
+
+void print(int arrHeap[], int size){
+
+  cout << "Printing heap\n\n";
+
+  for(int i = 1; i <= size; i++)
+    cout << i << ": " << arrHeap[i] << '\n';
+  cout << '\n';
+}

@@ -1,0 +1,57 @@
+//Julian Harris
+//activity.h
+
+#include <iostream>
+
+using namespace std;
+
+class ActivityList
+{
+private:
+  //list data members, exclusively the list itself and its head. 
+  class ActivityNode
+  {
+  public: 
+    string name;
+    float price;
+    float rating; 
+    int priority; 
+    ActivityNode *next;
+    
+    ActivityNode(string newName, float newPrice, float newRating,
+                 int newPriority); 
+  };
+  ActivityNode *head = nullptr; 
+  int size = 0;
+  
+public:
+  //list operations
+
+  //default constructor
+  ActivityList(); 
+  
+  //copy constructor
+  ActivityList(ActivityList& copy);
+
+  //default destructor
+  ~ActivityList();
+  
+  //copy assignment
+  ActivityList& operator=(const ActivityList& copy);  
+
+  void createList(ActivityList& s2, int priority);
+  
+  bool isEmpty();
+  
+  //insert function 
+  void enqueue(string newName, float newPrice, float newRating,
+               int newPriority);
+  
+  void dequeue(string targetName);
+  
+  int getSize();
+  
+  float getRating(string name);
+  
+  void printList();
+};

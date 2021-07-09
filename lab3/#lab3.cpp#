@@ -1,0 +1,68 @@
+//Julian Harris
+//lab3.cpp
+
+//DOCUMENTATION HERE
+
+#include <iostream>
+
+using namespace std;
+
+typedef int valueType; 
+
+struct ListNode
+{
+  valueType value;
+  ListNode* next;
+};
+  
+//list operations
+ListNode* append(valueType newVal, ListNode* head);
+
+valueType recursivePrint(int reverseSize, ListNode* head);
+
+int main()
+{
+  ListNode* head = nullptr;
+  int size = 0;
+  int reverseSize = 0;
+  valueType load;
+
+  //User selects list size
+  cout << "\nHow many elements do you wish to add? ";
+  cin >> size;
+  cout << "\n";
+  
+  //Loading values into list
+  for(int i = 0; i < size; i++){ 
+    cout << "Enter list value: ";
+    cin >> load;
+    append(load, head);
+  }
+  
+  cout << "\nHow many values do you wish to reverse? ";
+  cin >> reverseSize; 
+  //hit recursive yeet
+  
+  return 0;
+};
+
+ListNode* append(valueType newVal, ListNode* head){
+  ListNode* newPtr = new ListNode;
+  newPtr->value = newVal;
+  ListNode* nodePtr = head; 
+
+  if(head == nullptr)
+    head = newPtr; 
+  else{
+    while(nodePtr->next){
+      nodePtr = nodePtr->next;
+    }
+    nodePtr->next = newPtr; 
+  }
+  return head; 
+}
+
+valueType recursivePrint(int reverseSize, ListNode* head){
+
+  return 0; 
+}

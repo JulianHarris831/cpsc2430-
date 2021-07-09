@@ -1,0 +1,86 @@
+//Julian Harris
+//lab3.cpp
+
+//DOCUMENTATION HERE
+
+#include <iostream>
+
+using namespace std;
+
+typedef int valueType; 
+
+struct ListNode
+{
+  valueType value;
+  ListNode* next;
+};
+  
+//list operations
+ListNode* append(valueType newVal, ListNode* head);
+
+valueType recursivePrint(int reverseSize, ListNode* head, valueType sum);
+
+int main()
+{
+  ListNode* head = nullptr;
+  int size = 0;
+  int reverseSize = 0;
+  valueType load;
+  valueType sumLoad = 0;
+  valueType sum = 0;
+  
+  //User selects list size
+  cout << "\nHow many elements do you wish to add? ";
+  cin >> size;
+  cout << "\n";
+  
+  //Loading values into list
+  for(int i = 0; i < size; i++){ 
+    cout << "Enter list value: ";
+    cin >> load;
+    head = append(load, head);
+  }
+  
+  cout << "\nHow many values do you wish to reverse? ";
+  cin >> reverseSize;
+
+  //recursion process
+  sum += recursivePrint(reverseSize, head, sumLoad);
+  cout << "\nThe sum of these values is " << sum << "\n\n";
+  
+  return 0;
+}
+
+ListNode* append(valueType newVal, ListNode* head){
+
+  ListNode* newPtr = new ListNode;
+  newPtr->value = newVal;
+  ListNode* nodePtr = head; 
+
+  if(head == nullptr)
+    head = newPtr; 
+  else{
+    while(nodePtr->next){
+      nodePtr = nodePtr->next;
+    }
+    nodePtr->next = newPtr; 
+  }
+  return head; 
+}
+
+valueType recursivePrint(int reverseSize, ListNode* head, valueType sum){
+
+  ListNode* nodePtr = head;
+  
+  if(reverseSize == 1){
+    cout << head->value << ' ';
+    return sum + head->value;
+  }
+  else{
+    for(int i = 1; i < reverseSize; i++)
+      nodePtr = nodePtr->next; 
+    cout << nodePtr->value << ' ';
+    sum += nodePtr->value;
+    return recursivePrint(--reverseSize, head, sum);
+  }
+}
